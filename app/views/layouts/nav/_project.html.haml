@@ -21,7 +21,9 @@
 
   - if project_nav_tab? :issues
     = nav_link(controller: %w(issues milestones labels)) do
-      = link_to url_for_project_issues do
+      -# if using an external issue tracker then open Issues link in a new tab
+      - html_options = @project.used_default_issues_tracker? ? {} : {target: "_blank"}
+      = link_to url_for_project_issues, html_options do
         Issues
         - if @project.used_default_issues_tracker?
           %span.count.issue_counter= @project.issues.opened.count
